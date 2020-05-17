@@ -1,0 +1,27 @@
+{
+  "name": "generator-html5webgl",
+  "version": "1.0.0",
+  "description": "A simple generator for a boilerplate webgl project",
+  "main": "index.html",
+  "files": [
+    "generators"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drcircuit/generator-html5webgl.git"
+  },
+  "keywords": [
+    "yeoman-generator",
+    "webgl",
+    "html5"
+  ],
+  "author": "Espen Sande Larsen (Working Class Hacker)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drcircuit/generator-html5webgl/issues"
+  },
+  "homepage": "https://github.com/drcircuit/generator-html5webgl#readme",
+  "dependencies": {
+    "yeoman-generator": "^4.10.0"
+  }
+}
