@@ -1,0 +1,26 @@
+  
+{
+    "name": "<%= name %>",
+    "authors": ["<%= author %>"],
+    "description": "<%= title %>",
+    "main": "index.html",
+    "keywords": [
+      "gfx",
+      "demo",
+      "js",
+      "webgl"
+    ],
+    "license": "MIT",
+    "homepage": "",
+    "private": true,
+    "dependencies": {
+      "drc.canvas.lib": "DrCircuitsCanvasLibrary#*"
+    },
+    "ignore": [
+      "**/.*",
+      "node_modules",
+      "bower_components",
+      "test",
+      "tests"
+    ]
+  }
