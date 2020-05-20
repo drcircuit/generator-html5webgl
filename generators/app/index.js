@@ -62,8 +62,18 @@ module.exports = class extends Generator {
             this.answers
         );
         this.fs.copyTpl(
-            this.templatePath('package.json'),
+            this.templatePath('packagefile.json'),
             this.destinationPath('package.json'),
+            this.answers
+        );
+        this.fs.copyTpl(
+            this.templatePath("glsl/fragment.glsl"),
+            this.destinationPath("shaders/fragment.glsl"),
+            this.answers
+        );
+        this.fs.copyTpl(
+            this.templatePath("glsl/vertex.glsl"),
+            this.destinationPath("shaders/vertex.glsl"),
             this.answers
         );
     }
