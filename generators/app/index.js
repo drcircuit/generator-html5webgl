@@ -62,8 +62,8 @@ module.exports = class extends Generator {
             this.answers
         );
         this.fs.copyTpl(
-            this.templatePath('bowerfile.json'),
-            this.destinationPath('bower.json'),
+            this.templatePath('package.json'),
+            this.destinationPath('package.json'),
             this.answers
         );
     }
