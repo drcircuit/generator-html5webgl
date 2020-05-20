@@ -68,12 +68,12 @@ module.exports = class extends Generator {
         );
         this.fs.copyTpl(
             this.templatePath("glsl/fragment.glsl"),
-            this.destinationPath("shaders/fragment.glsl"),
+            this.destinationPath("shaders/fragment.shader"),
             this.answers
         );
         this.fs.copyTpl(
             this.templatePath("glsl/vertex.glsl"),
-            this.destinationPath("shaders/vertex.glsl"),
+            this.destinationPath("shaders/vertex.shader"),
             this.answers
         );
     }
