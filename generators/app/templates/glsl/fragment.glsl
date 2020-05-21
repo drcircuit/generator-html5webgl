@@ -4,8 +4,112 @@ precision mediump float;
 uniform vec2 u_resolution;
 uniform float u_time;
 
+<% if(rayMarcher){ %>
+#define MAX_STEPS 100
+#define SURFACE_DIST 0.001
+#define MAX_DIST 100.0
+<% } %>
+
+float t = u_time / 5.0;
+
+mat2 Rot2d(float a) {
+  float s = sin(a);
+  float c = cos(a);
+  return mat2(c, - s, s, c);
+}
+
+<% if(rayMarcher){ %>
+
+float sdSphere(vec3 p, vec4 sphere) {
+  return length(p - sphere.xyz) - sphere.w;
+}
+
+float sdBox(vec3 p, vec3 box) {
+  p = abs(p) - box;
+  return length(max(p, 0.0)) + min(max(p.x, max(p.y, p.z)), 0.0);
+}
+
+float sdGyroid(vec3 p, float scale, float thickness, float bias) {
+  p *= scale;
+  return abs(dot(sin(p), cos(p.zxy)) + bias) / scale - thickness;
+}
+
+float sdAAPlane(vec3 p){
+  return p.y;
+}
+//
+vec3 Transform(vec3 p) {
+  return p;
+}
+
+float GetDist(vec3 p){
+  // replace with your scene
+  float plane = sdAAPlane(p);
+  float sphere = sdSphere(p, vec4(0,1,3,1));
+  float d = max(plane, sphere);
+  return p.y;
+}
+
+vec3 GetNormal(vec3 p) {
+  vec2 e = vec2(0.02, 0);
+  float d = GetDist(p);
+  vec3 n = d-vec3(GetDist(p - e.xyy), GetDist(p - e.yxy), GetDist(p - e.yyx));
+  return normalize(n);
+}
+
+vec3 GetRayDir(vec2 uv, vec3 p, vec3 l, float z) {
+  vec3 f = normalize(l - p),
+  r = normalize(cross(vec3(0, 1, 0), f)),
+  u = cross(f, r),
+  c = p+f * z,
+  i = c+uv.x * r+uv.y * u,
+  d = normalize(i - p);
+  return d;
+}
+
+float RayMarch(vec3 ro, vec3 rd) {
+  float dO = 0.0;
+  for(int i = 0; i < MAX_STEPS; i ++ ) {
+    vec3 p = ro + dO * rd;
+    float ds = GetDist(p);
+    dO += ds;
+    if (dO < SURFACE_DIST||dO > MAX_DIST) {
+      break;
+    }
+  }
+  return dO;
+}
+
+vec3 render(vec2 uv){
+  vec3 color = vec3(0);
+  
+  // camera
+  vec3 camO = vec3(0, 0, - 0.01);
+  vec3 lookAt = vec3(0, 0, 0);
+  vec3 rd = GetRayDir(uv, camO, lookAt, 0.8);
+
+  // trace scene
+  float d = RayMarch(camO, rd);
+
+  // material
+  if (d < MAX_DIST) {
+    vec3 p = camO + rd * d;
+    vec3 n = GetNormal(p);
+    float height = p.y;
+    float dif = n.y * 0.5 + 0.5;
+    color += dif * dif;
+    p = Transform(p);
+  }
+  return color;
+}
+
+<% } %>
 void main(){
   vec2 uv = (gl_FragCoord.xy-0.5 * u_resolution) / u_resolution.y;
+  <% if(rayMarcher){%>
+  vec3 color = render(uv);
+  <% } else { %>
   vec3 color= 0.5 + 0.5 * cos(u_time + uv.xyx + vec3(0,2,4));
+  <% } %>
   gl_FragColor=vec4(color,1.0);
 }

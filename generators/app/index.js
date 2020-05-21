@@ -25,9 +25,9 @@ module.exports = class extends Generator {
             default: 'The Working Class Hacker <workingclasshacker@gmail.com>'
         },
         {
-            type: 'input',
-            name: 'bgColor',
-            message: 'Which background color do you want?',
+            type: 'confirm',
+            name: 'rayMarcher',
+            message: 'Are you writing a Ray Marcher?',
             default: 'black'
         },
         {

@@ -62,12 +62,12 @@ function ready() {
 }
 
 function loadShaders(cb) {
-    fetch("/shaders/vertex.shader")
+    fetch("shaders/vertex.shader")
         .then((res) => res.text())
         .then((text) => {
             program = gl.createProgram();
             buildShader(text, gl.VERTEX_SHADER, program);
-            return fetch("/shaders/fragment.shader");
+            return fetch("shaders/fragment.shader");
         })
         .then((res) => res.text())
         .then((text) => {
