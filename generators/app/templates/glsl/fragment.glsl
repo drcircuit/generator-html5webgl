@@ -10,7 +10,7 @@ uniform float u_time;
 #define MAX_DIST 100.0
 <% } %>
 
-float t = u_time / 5.0;
+float t;
 
 mat2 Rot2d(float a) {
   float s = sin(a);
@@ -44,10 +44,8 @@ vec3 Transform(vec3 p) {
 
 float GetDist(vec3 p){
   // replace with your scene
-  float plane = sdAAPlane(p);
-  float sphere = sdSphere(p, vec4(0,1,3,1));
-  float d = max(plane, sphere);
-  return p.y;
+  float d = sdSphere(p, vec4(0,1,3,1));
+  return d;
 }
 
 vec3 GetNormal(vec3 p) {
@@ -84,10 +82,10 @@ vec3 render(vec2 uv){
   vec3 color = vec3(0);
   
   // camera
-  vec3 camO = vec3(0, 0, - 0.01);
-  vec3 lookAt = vec3(0, 0, 0);
-  vec3 rd = GetRayDir(uv, camO, lookAt, 0.8);
-
+  vec3 camO = vec3(0, 1, 0);
+  vec3 lookAt = vec3(0, 1, 1);
+  vec3 rd = GetRayDir(uv, camO, lookAt, 1.0);
+  
   // trace scene
   float d = RayMarch(camO, rd);
 
@@ -96,15 +94,15 @@ vec3 render(vec2 uv){
     vec3 p = camO + rd * d;
     vec3 n = GetNormal(p);
     float height = p.y;
-    float dif = n.y * 0.5 + 0.5;
-    color += dif * dif;
-    p = Transform(p);
+    float dif = n.y * 0.5 + 0.5+n.x*.5;
+    color += dif*dif;
   }
   return color;
 }
 
 <% } %>
 void main(){
+  t =  = u_time / 5.0;
   vec2 uv = (gl_FragCoord.xy-0.5 * u_resolution) / u_resolution.y;
   <% if(rayMarcher){%>
   vec3 color = render(uv);
