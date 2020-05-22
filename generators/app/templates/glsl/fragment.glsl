@@ -102,7 +102,7 @@ vec3 render(vec2 uv){
 
 <% } %>
 void main(){
-  t =  = u_time / 5.0;
+  t = u_time / 5.0;
   vec2 uv = (gl_FragCoord.xy-0.5 * u_resolution) / u_resolution.y;
   <% if(rayMarcher){%>
   vec3 color = render(uv);
