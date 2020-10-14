@@ -1,6 +1,6 @@
 {
   "name": "generator-html5webgl",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "A simple generator for a boilerplate webgl project",
   "main": "index.html",
   "files": [

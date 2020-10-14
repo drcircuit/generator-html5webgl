@@ -19,6 +19,17 @@ mat2 Rot2d(float a) {
 }
 
 <% if(rayMarcher){ %>
+float differenceSdf(float a, float b){
+  return max(a,-b);
+}
+
+float intersectSdf(float a, float b){
+  return max(a, b);
+}
+
+float unionSdf(float a, float b){
+  return min(a, b);
+}
 
 float sdSphere(vec3 p, vec4 sphere) {
   return length(p - sphere.xyz) - sphere.w;
@@ -82,7 +93,7 @@ vec3 render(vec2 uv){
   vec3 color = vec3(0);
   
   // camera
-  vec3 camO = vec3(0, 1, 0);
+  vec3 camO = vec3(0, 3, -3);
   vec3 lookAt = vec3(0, 1, 1);
   vec3 rd = GetRayDir(uv, camO, lookAt, 1.0);
   
@@ -94,8 +105,8 @@ vec3 render(vec2 uv){
     vec3 p = camO + rd * d;
     vec3 n = GetNormal(p);
     float height = p.y;
-    float dif = n.y * 0.5 + 0.5+n.x*.5;
-    color += dif*dif;
+    float dif = dot(n, normalize(vec3(1,2,3)))*.5+.5;
+    color += dif;
   }
   return color;
 }
@@ -106,6 +117,7 @@ void main(){
   vec2 uv = (gl_FragCoord.xy-0.5 * u_resolution) / u_resolution.y;
   <% if(rayMarcher){%>
   vec3 color = render(uv);
+  color = pow(color, vec3(.4545)); //correct gamma
   <% } else { %>
   vec3 color= 0.5 + 0.5 * cos(u_time + uv.xyx + vec3(0,2,4));
   <% } %>
