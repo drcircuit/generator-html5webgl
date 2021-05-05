@@ -56,7 +56,7 @@ vec3 Transform(vec3 p) {
 
 float GetDist(vec3 p){
   // replace with your scene
-  float d = sdSphere(p, vec4(0,1,3,1));
+  float d = sdSphere(p, vec4(0,0,0,.5));
   return d;
 }
 

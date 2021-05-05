@@ -91,7 +91,7 @@ function loadShaders(cb) {
             }
             timeLocation = gl.getUniformLocation(program, "u_time");
             resolutionLocation = gl.getUniformLocation(program, "u_resolution");
-            mouseLocation = gl.getUniformLocation(program, "u_mousePos");
+            mouseLocation = gl.getUniformLocation(program, "u_mouse");
             cb(0);
         })
         .catch((err) => {
