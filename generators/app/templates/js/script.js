@@ -3,6 +3,8 @@ const canvas = setupCanvas();
 const gl = canvas.getContext("experimental-webgl");
 gl.viewport(0, 0, canvas.width, canvas.height);
 let program, timeLocation, resolutionLocation, mouseLocation;
+let click = false;
+let lastMousePos = {x:0, y:0};
 let useResize = window.innerWidth === <%= width %> || window.innerHeight === <%= height %>;
 const buffer = gl.createBuffer();
 loadShaders(ready);
@@ -15,6 +17,8 @@ function setupCanvas() {
     document.body.appendChild(c);
     window.addEventListener("resize", resize);
     document.addEventListener("mousemove", mousemove);
+    c.addEventListener("mousedown", (e)=>{click = true;});
+    c.addEventListener("mouseup", (e)=>{click = false;});
     return c;
 }
 
@@ -32,10 +36,19 @@ function resize() {
 }
 
 function mousemove(e) {
-    var cRect = canvas.getBoundingClientRect();              // Gets the CSS positions along with width/height
-    var canvasX = Math.round(e.clientX - cRect.left);        // Subtract the 'left' of the canvas from the X/Y
-    var canvasY = Math.round(e.clientY - cRect.top);  
-    gl.uniform2f(mouseLocation, canvasX/canvas.width, canvasY/canvas.height);
+        var cRect = canvas.getBoundingClientRect();              // Gets the CSS positions along with width/height
+        var canvasX = Math.round(e.clientX - cRect.left);        // Subtract the 'left' of the canvas from the X/Y
+        var canvasY = Math.round(e.clientY - cRect.top);  
+        var c = -1;
+        var r = -1;
+        if(click){
+            lastMousePos.x = canvasX/canvas.width;
+            lastMousePos.y = canvasY/canvas.height;
+            c = 1;
+        } else {
+            c = -1;            
+        }
+        gl.uniform4f(mouseLocation, lastMousePos.x,lastMousePos.y,c,r );
 }
 
 function render(time){

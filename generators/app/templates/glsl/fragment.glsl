@@ -2,6 +2,7 @@
 precision mediump float;
 #endif
 uniform vec2 u_resolution;
+uniform vec4 u_mouse;
 uniform float u_time;
 
 <% if(rayMarcher){ %>
@@ -94,7 +95,9 @@ vec3 render(vec2 uv){
   
   // camera
   vec3 camO = vec3(0, 3, -3);
-  vec3 lookAt = vec3(0, 1, 1);
+  vec3 lookAt = vec3(0, 0, 0);
+  camO.yz *= Rot2d(-u_mouse.y*3.14+1.);
+  camO.xz *= Rot2d(-u_mouse.x*6.2831);
   vec3 rd = GetRayDir(uv, camO, lookAt, 1.0);
   
   // trace scene
