@@ -1,6 +1,6 @@
 {
   "name": "generator-html5webgl",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "description": "A simple generator for a boilerplate webgl project",
   "main": "index.html",
   "files": [
@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/drcircuit/generator-html5webgl#readme",
   "dependencies": {
-    "yeoman-generator": "^4.10.0"
+    "yeoman-generator": "^5.6.1"
   }
 }
